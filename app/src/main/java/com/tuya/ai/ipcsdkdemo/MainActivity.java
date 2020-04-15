@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
         String recordPath = "/sdcard/";
 
         //二维码信息Map
-        String secret = "1157ae641781c000";
+        String secret = "";
 
         Map<String,String> qrcodeMap = new HashMap<>();
         qrcodeMap.put(QrcodeEnum.TOKEN.getCode(),"");
