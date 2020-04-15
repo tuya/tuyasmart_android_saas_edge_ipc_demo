@@ -20,25 +20,4 @@
         android:id="@+id/surface"
         android:layout_width="300px"
         android:layout_height="300px" />
-
-    <Button
-        android:id="@+id/atopButton"
-        android:layout_width="400px"
-        android:layout_height="200px"
-        android:onClick="atopClick"
-        android:text="atop_button" />
-
-    <Button
-        android:id="@+id/mqttButton"
-        android:layout_width="400px"
-        android:layout_height="200px"
-        android:onClick="mqttClick"
-        android:text="mqtt_button" />
-
-    <Button
-        android:id="@+id/edgeButton"
-        android:layout_width="400px"
-        android:layout_height="200px"
-        android:onClick="edgeClick"
-        android:text="edge_button" />
 </LinearLayout>

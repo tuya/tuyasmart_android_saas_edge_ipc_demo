@@ -159,33 +159,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void atopClick(View view)//按钮按下,执行atop请求
-    {
-        DeviceVO deviceIdVO =  AtopFacade.getInstance().getDeviceByDeviceId("6cd682e2568de53219m5yr");
-        System.err.print("deviceIdVO:"+ JSON.toJSONString(deviceIdVO));
-    }
-
-    public void mqttClick(View view){//按钮按下,执行mqtt请求
-        ThirdEventRequest request = new ThirdEventRequest();
-        request.setUid("uid9527");
-        request.setOperTime(System.currentTimeMillis());
-        request.setPicUrl("");
-        request.setWay(4);
-        request.setSuccess(true);
-
-        boolean flag = MqttEventSupport.getInstance().publishThirdEvent(request);
-       System.err.print("flag:" + flag);
-    }
-
-    public void edgeClick(View view){
-        TenementReceiveEvent tenementReceiveEvent =  EdgeEventManager.getTenementInstance();
-        TenementRequest tenementRequest = new TenementRequest();
-        tenementRequest.setUid("uid9527");
-        EventContext context = new EventContext();
-
-        tenementReceiveEvent.modifyTenement(tenementRequest,context);
-    }
-
     /**
      * 音视频参数配置
      */
