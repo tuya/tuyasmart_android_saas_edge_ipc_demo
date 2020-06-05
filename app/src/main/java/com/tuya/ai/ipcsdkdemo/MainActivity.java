@@ -1,33 +1,19 @@
 package com.tuya.ai.ipcsdkdemo;
 
 import android.Manifest;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.SurfaceView;
-import android.view.View;
 
-import com.alibaba.fastjson.JSON;
 import com.tuya.ai.ipcsdkdemo.audio.FileAudioCapture;
 import com.tuya.ai.ipcsdkdemo.video.VideoCapture;
-import com.tuya.edge.atop.AtopFacade;
-import com.tuya.edge.client.api.user.TenementReceiveEvent;
-import com.tuya.edge.client.model.EventContext;
-import com.tuya.edge.client.model.user.TenementRequest;
 import com.tuya.edge.enums.QrcodeEnum;
-import com.tuya.edge.init.EdgeEventManager;
 import com.tuya.edge.init.EdgeNetConfigManager;
 import com.tuya.edge.init.MediaParamConfigCallback;
-import com.tuya.edge.model.request.ThirdEventRequest;
-import com.tuya.edge.model.vo.DeviceVO;
-import com.tuya.edge.mqtt.MqttEventSupport;
 import com.tuya.edge.utils.AESUtils;
 import com.tuya.smart.aiipc.base.permission.PermissionUtil;
-
 import com.tuya.smart.aiipc.ipc_sdk.api.Common;
 import com.tuya.smart.aiipc.ipc_sdk.api.IMediaTransManager;
 import com.tuya.smart.aiipc.ipc_sdk.api.IParamConfigManager;
@@ -59,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
             IMediaTransManager mediaTransManager = IPCServiceManager.getInstance().getService(IPCServiceManager.IPCService.MEDIA_TRANS_SERVICE);
 
             try {
-                InputStream fileStream = getAssets().open("leijun.jpeg");
+                InputStream fileStream = getAssets().open("donghua.jpg");
 
                 byte[] buffer = new byte[2048];
                 int bytesRead;
@@ -77,8 +63,8 @@ public class MainActivity extends AppCompatActivity {
 
         //三方设备id
         String cid = "device164114432";
-        String basePath = "/sdcard/";
-        String recordPath = "/sdcard/";
+        String basePath = getFilesDir().getPath() + "/";
+        String recordPath = getFilesDir().getPath() + "/";
 
         //二维码信息Map
         String secret = "";
