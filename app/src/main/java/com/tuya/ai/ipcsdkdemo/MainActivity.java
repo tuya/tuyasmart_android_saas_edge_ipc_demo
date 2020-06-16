@@ -7,16 +7,21 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.SurfaceView;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.tuya.ai.ipcsdkdemo.audio.FileAudioCapture;
 import com.tuya.ai.ipcsdkdemo.video.VideoCapture;
+import com.tuya.edge.atop.AtopFacade;
 import com.tuya.edge.enums.QrcodeEnum;
 import com.tuya.edge.init.EdgeNetConfigManager;
 import com.tuya.edge.init.MediaParamConfigCallback;
+import com.tuya.edge.model.vo.NetQrcodeVO;
 import com.tuya.edge.utils.AESUtils;
 import com.tuya.smart.aiipc.base.permission.PermissionUtil;
 import com.tuya.smart.aiipc.ipc_sdk.api.Common;
 import com.tuya.smart.aiipc.ipc_sdk.api.IMediaTransManager;
 import com.tuya.smart.aiipc.ipc_sdk.api.IParamConfigManager;
+import com.tuya.smart.aiipc.ipc_sdk.callback.IP2PEventCallback;
 import com.tuya.smart.aiipc.ipc_sdk.service.IPCServiceManager;
 
 import java.io.ByteArrayOutputStream;
@@ -30,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "IPC_DEMO";
 
-    private  SurfaceView surfaceView;
+    private SurfaceView surfaceView;
 
     private VideoCapture videoCapture;
 
@@ -61,64 +66,76 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //三方设备id
-        String cid = "device164114432";
-        String basePath = getFilesDir().getPath() + "/";
-        String recordPath = getFilesDir().getPath() + "/";
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    //上线前需要向涂鸦申请
+                    String secret = "";
 
-        //二维码信息Map
-        String secret = "";
+                    //三方设备id,根据实际设备id配置
+                    String cid = "device164114432";
+                    String basePath = getFilesDir().getPath() + "/";
+                    String recordPath = getFilesDir().getPath() + "/";
 
-        Map<String,String> qrcodeMap = new HashMap<>();
-        qrcodeMap.put(QrcodeEnum.TOKEN.getCode(),"");
-        qrcodeMap.put(QrcodeEnum.UUID.getCode(),"");
-        qrcodeMap.put(QrcodeEnum.AUTH_KEY.getCode(), "");
+                    //二维码信息Map
+                    String t = "";
+                    String a = "a1-cn.wgine.com";
+                    String key = "";
 
-        qrcodeMap.put(QrcodeEnum.PROJECT_ID.getCode(),"linlin_area");
-        qrcodeMap.put(QrcodeEnum.PID.getCode(),"toftl4za2qhgf8uc");
-        qrcodeMap.put(QrcodeEnum.VENDOR.getCode(),"lilin");
-        qrcodeMap.put(QrcodeEnum.INSTALL_LOCATION.getCode(),"华策中心A栋");
+                    //查询配网信息
+                    NetQrcodeVO netQrcodeVO = AtopFacade.getInstance().queryQrcodeInfo(a, key);
+                    //对配网信息进行解密
+                    String qrcodeInfo = AESUtils.decrypt(netQrcodeVO.getData(), secret);
 
-        //实现类的配置
-        Properties properties = new  Properties();
-        properties.put("dc_userInfo","com.tuya.ai.ipcsdkdemo.edge.TenementReceiveEventImpl");
-        properties.put("dc_door","com.tuya.ai.ipcsdkdemo.edge.DoorReceiveEventImpl");
-        //人脸数据同步
-       //  properties.put("dc_faceInfo","com.tuya.ai.ipcsdkdemo.edge.FaceImageReceiveEventImpl");
-        // 卡数据同步
-       //   properties.put("dn_cardInfo","com.tuya.ai.ipcsdkdemo.edge.CardReceiveEventImpl");
-        // 二维码数据同步
-        //  properties.put("dc_qrCodeInfo","com.tuya.ai.ipcsdkdemo.edge.QcCodeReceiveEventImpl");
+                    //组装qrcodeMap;
+                    Map<String, String> qrcodeMap = JSON.parseObject(qrcodeInfo, new TypeReference<HashMap<String, String>>() {});
+                    qrcodeMap.put(QrcodeEnum.TOKEN.getCode(), t);
 
-        PermissionUtil.check(this, new String[]{
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.WAKE_LOCK,
-                Manifest.permission.RECORD_AUDIO
-        }, ()-> initSDK(this, cid, qrcodeMap, basePath, recordPath, properties, secret, new MediaParamConfigCallback(){
-            public void initMediaParamConfig(){
-                LoadParamConfig();
+                    //实现类的配置
+                    Properties properties = new Properties();
+                    properties.put("dc_userInfo", "com.tuya.ai.ipcsdkdemo.edge.TenementReceiveEventImpl");
+                    properties.put("dc_door", "com.tuya.ai.ipcsdkdemo.edge.DoorReceiveEventImpl");
+                    //人脸数据同步
+                    //  properties.put("dc_faceInfo","com.tuya.ai.ipcsdkdemo.edge.FaceImageReceiveEventImpl");
+                    // 卡数据同步
+                    //   properties.put("dn_cardInfo","com.tuya.ai.ipcsdkdemo.edge.CardReceiveEventImpl");
+                    // 二维码数据同步
+                    //  properties.put("dc_qrCodeInfo","com.tuya.ai.ipcsdkdemo.edge.QcCodeReceiveEventImpl");
+
+                    PermissionUtil.check(MainActivity.this, new String[]{
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                            Manifest.permission.READ_EXTERNAL_STORAGE,
+                            Manifest.permission.WAKE_LOCK,
+                            Manifest.permission.RECORD_AUDIO,
+                            Manifest.permission.CAMERA
+                    }, () -> initSDK(MainActivity.this, cid, qrcodeMap, basePath, recordPath, properties, new MediaParamConfigCallback() {
+                        public void initMediaParamConfig() {
+                            LoadParamConfig();
+                        }
+                    }));
+                } catch (Exception ex) {
+
+                }
             }
-        }));
-
+        }).start();
     }
 
     /**
      * 扫二维码配网及设备重启时调用
      *
-     * @param  ctx          上下文
-     * @param  cid          三方设备id
-     * @param  qrcodeMap    二维码信息Map
-     * @param  basePath     可写的一个路径，用于存储SDK相关的配置
-     * @param  recordPath   可写的一个路径，用于存储录像
-     * @param  properties   实现类的配置
-     * @param  secret
-     * @param  paramConfigCallBack
+     * @param ctx                 上下文
+     * @param cid                 三方设备id
+     * @param qrcodeMap           二维码信息Map
+     * @param basePath            可写的一个路径，用于存储SDK相关的配置
+     * @param recordPath          可写的一个路径，用于存储录像
+     * @param properties          实现类的配置
+     * @param paramConfigCallBack
      */
-    private void initSDK(Context ctx, String cid, Map<String,String> qrcodeMap, String basePath, String recordPath,
-                         Properties properties,String secret, MediaParamConfigCallback paramConfigCallBack) {
+    private void initSDK(Context ctx, String cid, Map<String, String> qrcodeMap, String basePath, String recordPath,
+                         Properties properties, MediaParamConfigCallback paramConfigCallBack) {
 
-        EdgeNetConfigManager.getInstance().initSDK(ctx,cid,qrcodeMap,basePath,recordPath,properties,secret, paramConfigCallBack);
+        EdgeNetConfigManager.getInstance().initSDK(ctx, cid, qrcodeMap, basePath, recordPath, properties, paramConfigCallBack);
 
         runOnUiThread(() -> findViewById(R.id.call).setEnabled(true));
 
@@ -142,6 +159,17 @@ public class MainActivity extends AppCompatActivity {
              * */
             Log.d(TAG, "doorbell back: " + status);
 
+        });
+
+        mediaTransManager.setP2PEventCallback(new IP2PEventCallback() {
+            @Override
+            public void onEvent(IMediaTransManager.P2PEvent p2PEvent, Object o) {
+                if (p2PEvent == IMediaTransManager.P2PEvent.TRANS_SPEAKER_START) {//对讲请求
+
+                } else if (p2PEvent == IMediaTransManager.P2PEvent.TRANS_SPEAKER_STOP) {//对讲结束
+
+                }
+            }
         });
     }
 
