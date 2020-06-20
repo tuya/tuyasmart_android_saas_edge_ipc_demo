@@ -84,12 +84,13 @@ public class MainActivity extends AppCompatActivity {
                     String key = "";
 
                     //查询配网信息
-                    NetQrcodeVO netQrcodeVO = AtopFacade.getInstance().queryQrcodeInfo(a, key);
+                    NetQrcodeVO netQrcodeVO = AtopFacade.getInstance().queryQrcodeInfo(a, key, cid);
                     //对配网信息进行解密
                     String qrcodeInfo = AESUtils.decrypt(netQrcodeVO.getData(), secret);
 
                     //组装qrcodeMap;
-                    Map<String, String> qrcodeMap = JSON.parseObject(qrcodeInfo, new TypeReference<HashMap<String, String>>() {});
+                    Map<String, String> qrcodeMap = JSON.parseObject(qrcodeInfo, new TypeReference<HashMap<String, String>>() {
+                    });
                     qrcodeMap.put(QrcodeEnum.TOKEN.getCode(), t);
 
                     //实现类的配置
