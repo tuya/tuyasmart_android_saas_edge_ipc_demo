@@ -149,16 +149,17 @@ public class MainActivity extends AppCompatActivity {
         fileAudioCapture.startFileCapture();
 
         IMediaTransManager mediaTransManager = IPCServiceManager.getInstance().getService(IPCServiceManager.IPCService.MEDIA_TRANS_SERVICE);
+        mediaTransManager.setDoorBellCallStatusCallback(status -> {
+            /**
+             * 门铃呼叫报警接听状态
+             * status = -1 未知状态
+             * status = 0 接听
+             * status = 1 挂断
+             * status = 2 通话中心跳
+             * {@link Common.DoorBellCallStatus}
+             * */
+            Log.d(TAG, "doorbell back: " + status);
 
-        mediaTransManager.setP2PEventCallback(new IP2PEventCallback() {
-            @Override
-            public void onEvent(IMediaTransManager.P2PEvent p2PEvent, Object o) {
-                if (p2PEvent == IMediaTransManager.P2PEvent.TRANS_SPEAKER_START) {//对讲请求
-
-                } else if (p2PEvent == IMediaTransManager.P2PEvent.TRANS_SPEAKER_STOP) {//对讲结束
-
-                }
-            }
         });
     }
 
