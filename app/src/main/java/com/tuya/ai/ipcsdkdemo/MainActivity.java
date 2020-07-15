@@ -19,6 +19,7 @@ import com.tuya.edge.model.vo.NetQrcodeVO;
 import com.tuya.edge.utils.AESUtils;
 import com.tuya.smart.aiipc.base.permission.PermissionUtil;
 import com.tuya.smart.aiipc.ipc_sdk.api.Common;
+import com.tuya.smart.aiipc.ipc_sdk.api.IDeviceManager;
 import com.tuya.smart.aiipc.ipc_sdk.api.IMediaTransManager;
 import com.tuya.smart.aiipc.ipc_sdk.api.IParamConfigManager;
 import com.tuya.smart.aiipc.ipc_sdk.callback.IP2PEventCallback;
@@ -139,6 +140,10 @@ public class MainActivity extends AppCompatActivity {
         EdgeNetConfigManager.getInstance().initSDK(ctx, cid, qrcodeMap, basePath, recordPath, properties, paramConfigCallBack);
 
         runOnUiThread(() -> findViewById(R.id.call).setEnabled(true));
+
+        //获取涂鸦设备id
+        IDeviceManager deviceManager = (IDeviceManager) IPCServiceManager.getInstance().getService("tuya.ipc.service.device");
+        String deviceId = deviceManager.getDeviceId();
 
         //视频流（相机）
         videoCapture = new VideoCapture(Common.ChannelIndex.E_CHANNEL_VIDEO_MAIN);
