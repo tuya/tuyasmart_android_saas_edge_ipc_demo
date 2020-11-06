@@ -98,6 +98,7 @@ public class MainActivity extends AppCompatActivity {
                     Properties properties = new Properties();
                     properties.put("dc_userInfo", "com.tuya.ai.ipcsdkdemo.edge.TenementReceiveEventImpl");
                     properties.put("dc_door", "com.tuya.ai.ipcsdkdemo.edge.DoorReceiveEventImpl");
+                    properties.put("dc_talk", "com.tuya.ai.ipcsdkdemo.edge.TalkReceiveEventImpl");
                     //人脸数据同步
                     //  properties.put("dc_faceInfo","com.tuya.ai.ipcsdkdemo.edge.FaceImageReceiveEventImpl");
                     // 卡数据同步
