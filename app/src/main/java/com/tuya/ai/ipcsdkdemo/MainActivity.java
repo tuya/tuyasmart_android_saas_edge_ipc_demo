@@ -143,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
         runOnUiThread(() -> findViewById(R.id.call).setEnabled(true));
 
         //获取涂鸦设备id
-        IDeviceManager deviceManager = (IDeviceManager) IPCServiceManager.getInstance().getService("tuya.ipc.service.device");
+        IDeviceManager deviceManager = (IDeviceManager) IPCServiceManager.getInstance().getService(IPCServiceManager.IPCService.DEVICE_SERVICE);
         String deviceId = deviceManager.getDeviceId();
 
         //视频流（相机）

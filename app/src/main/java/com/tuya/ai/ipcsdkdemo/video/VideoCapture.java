@@ -3,9 +3,9 @@ package com.tuya.ai.ipcsdkdemo.video;
 import android.graphics.ImageFormat;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
-import android.util.Log;
 
 import java.io.IOException;
+import java.util.List;
 
 public class VideoCapture {
 
@@ -37,7 +37,8 @@ public class VideoCapture {
         //根据自己的设置更改
         p.setPreviewFormat(ImageFormat.NV21);
 //        p.setPreviewFormat(ImageFormat.YV12);
-        p.setPreviewFpsRange(30000, 30000);
+        List<int[]> supported = p.getSupportedPreviewFpsRange();
+        p.setPreviewFpsRange(supported.get(supported.size()-1)[0], supported.get(supported.size()-1)[1]);
         p.setPreviewSize(1280, 720);
 
         mCamera.setParameters(p);
@@ -49,16 +50,15 @@ public class VideoCapture {
             e.printStackTrace();
         }
 
-            mCamera.addCallbackBuffer(pixelBuffer);
+        mCamera.addCallbackBuffer(pixelBuffer);
         mCamera.setPreviewCallbackWithBuffer(new Camera.PreviewCallback() {
             @Override
             public void onPreviewFrame(byte[] data, Camera camera) {
-                Log.d("Video", "onPreviewFrame: ");
+//                Log.d("Video", "onPreviewFrame: ");
                 //编码
                 byte[] pixelData = new byte[1280 * 720 * 3 / 2];
                 System.arraycopy(data, 0, pixelData, 0, data.length);
                 mCodec.encodeH264(pixelData);
-                Log.d("Video", "onPreviewFrame: done");
                 camera.addCallbackBuffer(pixelBuffer);
             }
         });
