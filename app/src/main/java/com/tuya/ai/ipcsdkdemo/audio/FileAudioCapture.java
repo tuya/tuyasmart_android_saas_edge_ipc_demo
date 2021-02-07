@@ -56,7 +56,7 @@ public class FileAudioCapture {
                     }finally {
 
                     }
-                    transManager.pushMediaStream(Common.ChannelIndex.E_CHANNEL_AUDIO, 0, pcmBuffer,  System.currentTimeMillis());
+                    transManager.pushMediaStream(Common.ChannelIndex.E_CHANNEL_AUDIO, 0, pcmBuffer);
 
                     int frameRate = AUDIO_FPS;
                     int sleepTick = 1000 / frameRate;
