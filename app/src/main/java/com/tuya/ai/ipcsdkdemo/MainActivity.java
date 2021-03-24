@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.SurfaceView;
+import android.view.View;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
@@ -17,12 +18,12 @@ import com.tuya.edge.init.EdgeNetConfigManager;
 import com.tuya.edge.init.MediaParamConfigCallback;
 import com.tuya.edge.model.vo.NetQrcodeVO;
 import com.tuya.edge.utils.AESUtils;
+import com.tuya.edge.utils.TOTPUtils;
 import com.tuya.smart.aiipc.base.permission.PermissionUtil;
 import com.tuya.smart.aiipc.ipc_sdk.api.Common;
 import com.tuya.smart.aiipc.ipc_sdk.api.IDeviceManager;
 import com.tuya.smart.aiipc.ipc_sdk.api.IMediaTransManager;
 import com.tuya.smart.aiipc.ipc_sdk.api.IParamConfigManager;
-import com.tuya.smart.aiipc.ipc_sdk.callback.IP2PEventCallback;
 import com.tuya.smart.aiipc.ipc_sdk.service.IPCServiceManager;
 
 import java.io.ByteArrayOutputStream;
@@ -167,6 +168,24 @@ public class MainActivity extends AppCompatActivity {
             Log.d(TAG, "doorbell back: " + status);
 
         });
+
+    }
+
+    public void edgeClick(View view)//按钮按下,执行atop请求
+    {
+        //二维码刷新
+        //私钥
+        String secretKey = "fa26477e064d884c2fc13120e9daa272";
+        //二维码刷新时间
+        Long refreshTime = 500000L;
+        //二维码内容的加密部分
+        String decryptData = "e/ARSVkAEddzvT6CwVNy1zFUAcCQW4yhvzOiVLzaHne5nAO6rhZnpsLsY+QsW/5KeVO1eoqbCCCQGM5z9JQf1w==";
+        String qrcode = AESUtils.decryptForBase64(decryptData, secretKey);
+        String[] qrcodeArray = qrcode.split("\\|");
+
+        //验证二维码信息是否匹配
+        boolean flag = TOTPUtils.verifyTOTPFlexibility(qrcodeArray[0], secretKey, qrcodeArray[1], refreshTime);
+        System.out.println(flag);
     }
 
     /**
