@@ -100,10 +100,11 @@ public class MainActivity extends AppCompatActivity {
                     properties.put("dc_userInfo", "com.tuya.ai.ipcsdkdemo.edge.TenementReceiveEventImpl");
                     properties.put("dc_door", "com.tuya.ai.ipcsdkdemo.edge.DoorReceiveEventImpl");
                     properties.put("dc_talk", "com.tuya.ai.ipcsdkdemo.edge.TalkReceiveEventImpl");
+                    properties.put("dc_secret", "com.tuya.ai.ipcsdkdemo.edge.SecretReceiveEventImpl");
                     //人脸数据同步
                     //  properties.put("dc_faceInfo","com.tuya.ai.ipcsdkdemo.edge.FaceImageReceiveEventImpl");
                     // 卡数据同步
-                    //   properties.put("dn_cardInfo","com.tuya.ai.ipcsdkdemo.edge.CardReceiveEventImpl");
+                    properties.put("dn_cardInfo","com.tuya.ai.ipcsdkdemo.edge.CardReceiveEventImpl");
                     // 二维码数据同步
                     //  properties.put("dc_qrCodeInfo","com.tuya.ai.ipcsdkdemo.edge.QcCodeReceiveEventImpl");
 
