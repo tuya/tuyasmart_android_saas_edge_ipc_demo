@@ -13,6 +13,7 @@ public class DoorReceiveEventImpl implements DoorReceiveEvent {
     @Override
     public BaseResult openDoor(DoorRequest doorRequest, EventContext context) {
         Log.i(TuyaConstants.TAG,doorRequest.getUid() + "执行成功");
+
         return new BaseResult(true,"succ","执行成功");
     }
 }
