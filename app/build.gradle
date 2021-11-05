@@ -11,6 +11,9 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
+        // tuya: to fix annotation error
+        javaCompileOptions { annotationProcessorOptions { includeCompileClasspath = true } }
+
         ndk {
             abiFilters "armeabi-v7a"
         }

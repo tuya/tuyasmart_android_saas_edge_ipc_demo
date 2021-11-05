@@ -206,9 +206,9 @@ public class H264FileVideoCapture {
                         continue;
                     }
                     if (frame.type == FrameType.IDR) {
-                        transManager.pushMediaStream(streamType, Common.NAL_TYPE.NAL_TYPE_IDR, frame.data, 0);
+                        transManager.pushMediaStream(streamType, Common.NAL_TYPE.NAL_TYPE_IDR, frame.data);
                     } else {
-                        transManager.pushMediaStream(streamType, Common.NAL_TYPE.NAL_TYPE_PB, frame.data, 0);
+                        transManager.pushMediaStream(streamType, Common.NAL_TYPE.NAL_TYPE_PB, frame.data);
                     }
 
 

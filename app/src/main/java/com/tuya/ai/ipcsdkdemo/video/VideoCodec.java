@@ -106,7 +106,7 @@ public class VideoCodec {
                         bytes = outputStream.toByteArray();
                         type = Common.NAL_TYPE.NAL_TYPE_IDR;
                     }
-                    transManager.pushMediaStream(mChannel, type, bytes, System.currentTimeMillis());
+                    transManager.pushMediaStream(mChannel, type, bytes);
 
 //                    fpsCounter.logFrame();
                 }
@@ -222,7 +222,7 @@ public class VideoCodec {
                         byte[] pps = outputFormat.getByteBuffer("csd-1").array();
                         check(sps, pps);
                     } else {
-                        transManager.pushMediaStream(mChannel, type, bytes,  System.currentTimeMillis());
+                        transManager.pushMediaStream(mChannel, type, bytes);
                     }
                     outputBufferIndex = mCodec.dequeueOutputBuffer(info, 0);
                 }
