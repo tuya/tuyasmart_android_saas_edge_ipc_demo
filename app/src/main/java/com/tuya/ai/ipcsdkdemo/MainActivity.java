@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
                             Manifest.permission.WAKE_LOCK,
                             Manifest.permission.RECORD_AUDIO,
                             Manifest.permission.CAMERA
-                    }, () -> initSDK(MainActivity.this, cid, qrcodeMap, basePath, recordPath, properties, new MediaParamConfigCallback() {
+                    }, () -> initSDK(MainActivity.this, cid, qrcodeMap, basePath, recordPath, properties, "1", new MediaParamConfigCallback() {
                         public void initMediaParamConfig() {
                             LoadParamConfig();
                         }
@@ -135,12 +135,13 @@ public class MainActivity extends AppCompatActivity {
      * @param basePath            可写的一个路径，用于存储SDK相关的配置
      * @param recordPath          可写的一个路径，用于存储录像
      * @param properties          实现类的配置
+     * @param version             versionnum
      * @param paramConfigCallBack
      */
     private void initSDK(Context ctx, String cid, Map<String, String> qrcodeMap, String basePath, String recordPath,
-                         Properties properties, MediaParamConfigCallback paramConfigCallBack) {
+                         Properties properties, String version, MediaParamConfigCallback paramConfigCallBack) {
 
-        EdgeNetConfigManager.getInstance().initSDK(ctx, cid, qrcodeMap, basePath, recordPath, properties, paramConfigCallBack);
+        EdgeNetConfigManager.getInstance().initSDK(ctx, cid, qrcodeMap, basePath, recordPath, properties, version, paramConfigCallBack);
 
         runOnUiThread(() -> findViewById(R.id.call).setEnabled(true));
 
