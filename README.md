@@ -7,15 +7,9 @@ Tripartite access control equipment built-in Tuya IPC SDK refer to this  demo。
 
 # The overall architecture
 
-​           ![整体流程](./app/document/picture/云可视对讲架构.png)
+​           ![整体流程](./app/document/picture/云可视对讲架构图-[英文].png)
 
 ​      This document supports only the directly connected device, that is, the Tuya IPC SDK built into the three-party access device.
-
-
-
-# The business process
-
-![整体流程](./app/document/picture/云可视对讲整体流程.jpg)
 
 
 
