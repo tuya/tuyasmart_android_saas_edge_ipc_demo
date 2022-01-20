@@ -95,6 +95,12 @@ public class MainActivity extends AppCompatActivity {
                     });
                     qrcodeMap.put(QrcodeEnum.TOKEN.getCode(), t);
 
+                    Map<String, String> extendMap = new HashMap<>();
+                    extendMap.put("ip", "127.0.0.1");
+                    extendMap.put("install", "安装地址");
+                    //设置扩展信息
+                    qrcodeMap.put(QrcodeEnum.EXTEND_DATA.getCode(), JSON.toJSONString(extendMap));
+
                     //实现类的配置
                     Properties properties = new Properties();
                     properties.put("dc_userInfo", "com.tuya.ai.ipcsdkdemo.edge.TenementReceiveEventImpl");
