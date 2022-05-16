@@ -103,16 +103,25 @@ public class MainActivity extends AppCompatActivity {
 
                     //实现类的配置
                     Properties properties = new Properties();
-                    properties.put("dc_userInfo", "com.tuya.ai.ipcsdkdemo.edge.TenementReceiveEventImpl");
-                    properties.put("dc_door", "com.tuya.ai.ipcsdkdemo.edge.DoorReceiveEventImpl");
+                    //可视对讲事件处理
                     properties.put("dc_talk", "com.tuya.ai.ipcsdkdemo.edge.TalkReceiveEventImpl");
-                    properties.put("dc_secret", "com.tuya.ai.ipcsdkdemo.edge.SecretReceiveEventImpl");
-                    //人脸数据同步
-                    //  properties.put("dc_faceInfo","com.tuya.ai.ipcsdkdemo.edge.FaceImageReceiveEventImpl");
-                    // 卡数据同步
+                    //远程开门事件处理
+                    properties.put("dc_door", "com.tuya.ai.ipcsdkdemo.edge.DoorReceiveEventImpl");
+
+                    //人员事件处理
+                    properties.put("dc_userInfo", "com.tuya.ai.ipcsdkdemo.edge.TenementReceiveEventImpl");
+                    //人脸事件处理
+                    properties.put("dc_faceInfo", "com.tuya.ai.ipcsdkdemo.edge.TenementReceiveEventImpl");
+                    //人卡事件处理
                     properties.put("dn_cardInfo","com.tuya.ai.ipcsdkdemo.edge.CardReceiveEventImpl");
-                    // 二维码数据同步
-                    //  properties.put("dc_qrCodeInfo","com.tuya.ai.ipcsdkdemo.edge.QcCodeReceiveEventImpl");
+                    //二维码事件处理
+                    properties.put("dc_qrCodeInfo","com.tuya.ai.ipcsdkdemo.edge.QrCodeReceiveEventImpl");
+                    //密码通行事件处理
+                    properties.put("dc_passPwd","com.tuya.ai.ipcsdkdemo.edge.PassPwdReceiveEventImpl");
+                    //数据清理事件处理
+                    properties.put("dc_dataClear", "com.tuya.ai.ipcsdkdemo.edge.DataClearEventImpl");
+                    //时间同步事件处理
+                    properties.put("dc_timeSync", "com.tuya.ai.ipcsdkdemo.edge.TimeSyncEventImpl");
 
                     PermissionUtil.check(MainActivity.this, new String[]{
                             Manifest.permission.WRITE_EXTERNAL_STORAGE,
