@@ -54,7 +54,7 @@ dependencies {
 
     implementation 'com.tencent:mmkv:1.0.18'
     implementation 'com.google.code.gson:gson:2.8.5'
-    implementation 'com.alibaba:fastjson:1.1.67.android'
+    implementation 'com.alibaba:fastjson:1.2.70'
     implementation 'com.google.zxing:core:3.3.0'
     implementation 'com.tonyodev.fetch2:fetch2:3.0.3'
     implementation 'com.tonyodev.fetch2okhttp:fetch2okhttp:3.0.3'
