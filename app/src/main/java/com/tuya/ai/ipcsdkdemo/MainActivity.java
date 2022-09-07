@@ -100,7 +100,8 @@ public class MainActivity extends AppCompatActivity {
                     extendMap.put("install", "安装地址");
                     //设置扩展信息
                     qrcodeMap.put(QrcodeEnum.EXTEND_DATA.getCode(), JSON.toJSONString(extendMap));
-
+                    //自定义设置最大音视频连接数
+                    //qrcodeMap.put(QrcodeEnum.P2P_MAX_NUM.getCode(), "3");
                     //实现类的配置
                     Properties properties = new Properties();
 
